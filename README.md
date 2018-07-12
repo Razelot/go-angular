@@ -6,7 +6,7 @@ demo for angular app using using go rest api
 * **Client**: Node, npm, yarn, angular-cli
 * **Server**: Go
 
-## Getting started: ##
+## Getting started: ##
 
 * Install dependences:  `$ cd client && yarn install && cd ..`
 * Execute only Angular for development: `$ cd client && ng serve`
