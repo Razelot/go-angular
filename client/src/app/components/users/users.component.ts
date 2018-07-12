@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-
-// import 'rxjs/add/operator/map';
-
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-users',
@@ -16,7 +14,7 @@ export class UsersComponent implements OnInit {
   newName: string;
   newAge: number;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.refresh();
@@ -26,8 +24,12 @@ export class UsersComponent implements OnInit {
     console.log('refreshing');
     this.http.get("http://localhost:8080/api/users")
       .subscribe(result => {
-        // console.log(result);
+        console.log(result);
         this.users = result;
+      }, error => {
+        this.snackBar.open('ERROR', 'DISMISS', {
+          duration: 1000,
+        });
       });
   }
 
@@ -40,6 +42,13 @@ export class UsersComponent implements OnInit {
         this.newName = null;
         this.newAge = null;
         this.refresh();
+        this.snackBar.open('CREATE SUCCESS', 'DISMISS', {
+          duration: 1000,
+        });
+      }, error => {
+        this.snackBar.open('ERROR', 'DISMISS', {
+          duration: 1000,
+        });
       });
   }
 
@@ -49,15 +58,29 @@ export class UsersComponent implements OnInit {
       .subscribe(result => {
         console.log(result);
         this.refresh();
+        this.snackBar.open('DELETE SUCCESS', 'DISMISS', {
+          duration: 1000,
+        });
+      }, error => {
+        this.snackBar.open('ERROR', 'DISMISS', {
+          duration: 1000,
+        });
       });
   }
 
-  public save(user){
+  public save(user) {
     console.log('saving', user);
     this.http.put(`http://localhost:8080/api/user/${user.id}`, JSON.stringify(user))
       .subscribe(result => {
         console.log(result);
         this.refresh();
+        this.snackBar.open('EDIT SUCCESS', 'DISMISS', {
+          duration: 1000,
+        });
+      }, error => {
+        this.snackBar.open('ERROR', 'DISMISS', {
+          duration: 1000,
+        });
       });
   }
 
